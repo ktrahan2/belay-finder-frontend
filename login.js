@@ -5,10 +5,10 @@ function handleSignInForm(event) {
 
     const formData = new FormData(event.target)
     const username = formData.get('username')
-    const password_digest = formData.get('password_digest')
-    user = {username, password_digest}
+    const password = formData.get('password')
+    user = { username, password }
     
-    fetchCall( loginURL, "POST", {user} )
+    fetchCall( loginURL, "POST", user )
         .then(response => response.json())
         .then(console.log)
 }
