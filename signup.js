@@ -6,10 +6,10 @@ function getUserData(event) {
     const formData = new FormData(event.target)
     const username = formData.get('username')
     const email = formData.get('email')
-    const password_digest = formData.get('password_digest')
+    const password = formData.get('password')
     let name = formData.get('name')
     name = name.toLowerCase()
-    const user = {username, email, password_digest, name}
+    const user = {username, email, password, name}
     
     fetchCall( userURL, "POST", {user} )
     .then(response => response.json())
