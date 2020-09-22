@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <script src="const.js" defer></script>
+    <script src="update-profile.js" defer></script>
+    <link rel="stylesheet" href="update-profile.css">
+</head>
+<body>
+    <header>
+        <a href="/">HOME</a>
+        <h1>Update your profile!</h1>
+    </header>
+    <main>
+        <form id="update-user-form" class="user-form">
+            <input type="text" name="username" placeholder="Enter Username">
+            <input type="text" name="email" placeholder="Enter Email Address">
+            <input type="password" name="password_digest" placeholder="Enter Password, Must be between 6 and 15 characters">
+            <input type="text" name="name" placeholder="Enter Full Name">
+            <input type="text" name="aboutme" placeholder="Describe your climbing preferences">
+            <div>
+                <select class="drop-down" name="climbing_style" id="climbing-style-selections"></select>                
+                <select class="drop-down" name="climbing_skill" id="climbing-level-selections"></select>
+            </div>
+            <input type="submit" value="Submit Updates">
+        </form>
+    </main>
+    <footer>
+
+    </footer>
+
+
+</body>
+</html>
