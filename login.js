@@ -1,3 +1,5 @@
+createNavigationButton("HOME", `${frontEndURL}`)
+
 $.signInForm.addEventListener('submit', handleSignInForm)
 
 function handleSignInForm(event) {
@@ -10,5 +12,20 @@ function handleSignInForm(event) {
     
     fetchCall( loginURL, "POST", user )
         .then(response => response.json())
-        .then(data => directToPage(event, `${accountURL}?user_id=${data.user.id}`))
+        .then(data => validateSignIn(event, data))
+        
+}
+
+function validateSignIn(event, data) {
+    if (data.errors) {
+        removeErrors()
+        let error = data.errors
+        const errorBox = document.createElement('p')
+        errorBox.classList.add('error-box')
+        errorBox.innerHTML = error
+        errorBox.style.color = "red" 
+        $.createUserErrorSection.append(errorBox)             
+    } else {
+        directToPage(event, `${accountURL}?user_id=${data.user.id}`)
+    }
 }

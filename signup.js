@@ -1,3 +1,5 @@
+createNavigationButton("HOME", `${frontEndURL}`)
+
 $.createUserForm.addEventListener('submit', getUserData)
 
 function getUserData(event) {
@@ -13,11 +15,11 @@ function getUserData(event) {
     
     fetchCall( userURL, "POST", {user} )
     .then(response => response.json())
-    .then(validateSignUp)
+    .then(data => validateSignUp(data))
 }
 
-function validateSignUp(user) {
-    if (user.errors) {
+function validateSignUp(data) {
+    if (data.user.errors) {
         removeErrors()
         let error = findError(user.errors)
         error.forEach(error => {
@@ -28,7 +30,7 @@ function validateSignUp(user) {
             $.createUserErrorSection.append(errorBox)
         })      
     } else {
-        window.location.replace(`${frontEndURL}/account.html?user_id=${user.id}`)
+        window.location.replace(`${frontEndURL}/account.html?user_id=${data.user.id}`)
     }
 }
 

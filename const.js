@@ -8,6 +8,8 @@ const signInURL = `${frontEndURL}/login.html`
 const updateProfileURL = `${frontEndURL}/update-profile.html`
 const loginURL = `${baseURL}/login`
 const accountURL = `${frontEndURL}/account.html`
+const updateAccountInfoURL = `${frontEndURL}/update-account-information.html`
+const updateProfileInfoURL = `${frontEndURL}/update-profile-information.html`
 
 const $ = {
     header: document.querySelector('header'),
@@ -17,8 +19,6 @@ const $ = {
     createUserErrorSection: document.querySelector('#show-create-user-error'),
     signUpButton: document.querySelector('#sign-up-button'),
     signInButton: document.querySelector('#sign-in-button'),
-    updateProfileButton: document.querySelector('#update-profile-button'),
-    updateUserForm: document.querySelector('#update-user-form'),
     signInForm: document.querySelector('#sign-in-user-form')
 }
 
@@ -27,6 +27,18 @@ const climbingStyleArray = ["top rope", "sport", "trad"]
 const difficultyArray = ["5.5", "5.6", "5.7", "5.8", "5.9", "5.10a", "5.10b", 
     "5.10c", "5.10d", "5.11a", "5.11b", "5.11c", "5.11d", "5.12a"
 ]
+
+function createNavigationButton(name, url) {
+    const button = document.createElement('button')
+
+    button.classList.add('button')
+    button.type = "button"
+    button.innerText = `${name}`
+
+    $.header.append(button)
+
+    button.addEventListener('click', event => directToPage(event, url))
+}
 
 function fetchCall(url, method, bodyData) {
     const headers = {
@@ -63,3 +75,21 @@ function directToPage(event, url) {
     event.preventDefault()
     window.location.replace(url)
 }
+
+// function createClimbingSkillOptions() {
+//     difficultyArray.forEach(difficulty => {
+//         const dropDown = document.querySelector('#climbing-level-selections')
+//         const difficultyOption = document.createElement('option')
+//         difficultyOption.textContent = difficulty
+//         dropDown.append(difficultyOption)
+//     })
+// }
+
+// function createClimbingStyleOptions() {
+//     climbingStyleArray.forEach(style => {
+//         const dropDown = document.querySelector('#climbing-style-selections')
+//         const styleOption = document.createElement('option')
+//         styleOption.textContent = style
+//         dropDown.append(styleOption)
+//     })
+// }
