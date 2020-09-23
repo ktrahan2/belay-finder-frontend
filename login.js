@@ -10,5 +10,5 @@ function handleSignInForm(event) {
     
     fetchCall( loginURL, "POST", user )
         .then(response => response.json())
-        .then(console.log)
+        .then(data => directToPage(event, `${accountURL}?user_id=${data.user.id}`))
 }

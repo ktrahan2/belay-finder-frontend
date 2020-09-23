@@ -7,6 +7,7 @@ const climbingRouteURL = `${baseURL}/climbing_routes`
 const signInURL = `${frontEndURL}/login.html`
 const updateProfileURL = `${frontEndURL}/update-profile.html`
 const loginURL = `${baseURL}/login`
+const accountURL = `${frontEndURL}/account.html`
 
 const $ = {
     header: document.querySelector('header'),
