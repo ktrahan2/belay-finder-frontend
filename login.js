@@ -26,6 +26,8 @@ function validateSignIn(event, data) {
         errorBox.style.color = "red" 
         $.createUserErrorSection.append(errorBox)             
     } else {
-        directToPage(event, `${accountURL}?user_id=${data.user.id}`)
+        localStorage.setItem("token", data.token)
+        directToPage(event, `${accountURL}`)
     }
 }
+

@@ -1,14 +1,17 @@
-const queryParams = new URLSearchParams(window.location.search)
-const user_id = queryParams.get("user_id")
+fetch(`${baseURL}/profile`, {
+    method: "GET",
+    headers: {
+        "Accept": "application/json",
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${window.localStorage.token}`
+    }
+    })
+    .then(response => response.json())
+    .then(response => createUpdateForm(response))
+    createNavigationButton("ACCOUNT", `${accountURL}`)
 
-fetch(`${userURL}/${user_id}`)
-    .then(resp => resp.json())
-    .then(user => createUpdateForm(user))
-    createNavigationButton("ACCOUNT", `${accountURL}?user_id=${user_id}`)
-    createNavigationButton("SIGN OUT", `${frontEndURL}`)
-
-function createUpdateForm(user) {
-    console.log(user)
+function createUpdateForm(response) {
+    console.log(response)
     const updateUserForm = document.createElement('form')
     const username = document.createElement('input')
     const email = document.createElement('input')
@@ -20,14 +23,14 @@ function createUpdateForm(user) {
     updateUserForm.id = "update-account-information-form"
 
     username.name = "username"
-    username.value = user.username
+    username.value = response.username
     email.name = "email"
-    email.value = user.email
+    email.value = response.email
     password.name = "password"
     password.type = "password"
     password.placeholder = "Password is required to update account information"
     name.name = "name"
-    name.value = user.name
+    name.value = response.name
     submit.value = "Update Account Information"
     submit.type = "submit"
 
@@ -35,24 +38,23 @@ function createUpdateForm(user) {
     $.main.append(updateUserForm)
 
     const $updateAccountInfoForm = document.querySelector('#update-account-information-form')
-    $updateAccountInfoForm.addEventListener('submit', getUserData)
+    $updateAccountInfoForm.addEventListener('submit', event => getUserData(event, response))
     
 }
- 
-function getUserData(event) {
-    event.preventDefault()
 
-    const formData = new FormData(event.target)
+function getUserData(event, response) {
+event.preventDefault()
+console.log(response)
+const formData = new FormData(event.target)
     const username = formData.get('username')
     const email = formData.get('email')
     const password = formData.get('password')
     let name = formData.get('name')
     name = name.toLowerCase()
-    user = { username, email, password, name }
+    let user = { username, email, password, name }
 
-    fetchCall( `${userURL}/${user_id}`, "PUT", {user} )
+    fetchCall( `${userURL}/${response.id}`, "PUT", {user} )
     .then(response => response.json())
-    .then(user => directToPage(event, `${accountURL}?user_id=${user.id}`))    
+    .then(directToPage(event, `${accountURL}`))    
 }
-
   

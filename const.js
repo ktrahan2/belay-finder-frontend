@@ -10,6 +10,7 @@ const loginURL = `${baseURL}/login`
 const accountURL = `${frontEndURL}/account.html`
 const updateAccountInfoURL = `${frontEndURL}/update-account-information.html`
 const updateProfileInfoURL = `${frontEndURL}/update-profile-information.html`
+const profileURL = `${userURL}/profile`
 
 const $ = {
     header: document.querySelector('header'),
@@ -43,7 +44,8 @@ function createNavigationButton(name, url) {
 function fetchCall(url, method, bodyData) {
     const headers = {
         "Accept": "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${window.localStorage.token}`
     }
     const body = JSON.stringify(bodyData)
     return fetch(url, {method, headers, body})
@@ -76,20 +78,12 @@ function directToPage(event, url) {
     window.location.replace(url)
 }
 
-// function createClimbingSkillOptions() {
-//     difficultyArray.forEach(difficulty => {
-//         const dropDown = document.querySelector('#climbing-level-selections')
-//         const difficultyOption = document.createElement('option')
-//         difficultyOption.textContent = difficulty
-//         dropDown.append(difficultyOption)
-//     })
-// }
-
-// function createClimbingStyleOptions() {
-//     climbingStyleArray.forEach(style => {
-//         const dropDown = document.querySelector('#climbing-style-selections')
-//         const styleOption = document.createElement('option')
-//         styleOption.textContent = style
-//         dropDown.append(styleOption)
-//     })
-// }
+function createDropDownOptions(array, id) {
+    const dropDown = document.querySelector(id)
+    array.forEach(index => {
+        let length = array.length - 1
+        const option = document.createElement('option')
+        option.textContent = index
+        dropDown.append(option)
+    })
+}
