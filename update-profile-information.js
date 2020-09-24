@@ -11,8 +11,7 @@ fetch(`${baseURL}/profile`, {
 createNavigationButton("ACCOUNT", `${accountURL}`)
 
 function createProfileUpdateForm(response) {
-    
-    console.log(response)
+    const userData = response.data
     const $updateProfileForm = document.createElement('form')
     const aboutMeLabel = document.createElement('label')
     const aboutme = document.createElement('input')
@@ -31,18 +30,15 @@ function createProfileUpdateForm(response) {
     aboutMeLabel.innerText = "About Me:"
     aboutme.id = "aboutme"
     aboutme.name = "aboutme"
-    aboutme.value = response.aboutme
+    aboutme.value = userData.attributes.aboutme
     
     skillLabel.for = "climbing-skill"
     skillLabel.innerText = "Climbing-Skill:"
     climbing_skill.id = "climbing-skill"
     climbing_skill.name = "climbing_skill"
-    climbing_skill.value = response.climbing_skill
-
     styleLabel.for = "climbing-style"
     styleLabel.innerText = "Climbing Style:"
     climbing_style.id = "climbing-style"
-    climbing_style.value = response.climbing_style
     climbing_style.name = "climbing_style"
 
     password.name = "password"
@@ -57,11 +53,20 @@ function createProfileUpdateForm(response) {
     
     createDropDownOptions(climbingStyleArray, '#climbing-style')
     createDropDownOptions(difficultyArray, '#climbing-skill')
+    //might be able to refactor
+    for (let i = 0; i < climbing_style.children.length; i++)
+        if (climbing_style[i].textContent == userData.attributes.climbing_style ) {
+           climbing_style[i].selected = true
+        }
+    for (let i = 0; i < climbing_skill.children.length; i++)
+        if (climbing_skill[i].textContent == userData.attributes.climbing_skill) {
+           climbing_skill[i].selected = true
+        } 
 
-    $updateProfileForm.addEventListener('submit', event => getUserData(event, response))
+    $updateProfileForm.addEventListener('submit', event => getUserData(event, userData))
 }
-//look at refactoring getUserData?
-function getUserData(event, response) {
+//look at refactoring getUserData, its being used slightly differently in alot of places?
+function getUserData(event, userData) {
     event.preventDefault()
 
     const formData = new FormData(event.target)
@@ -71,7 +76,7 @@ function getUserData(event, response) {
     const password = formData.get('password')
     let user = { password, aboutme, climbing_style, climbing_skill }
 
-    fetchCall( `${userURL}/${response.id}`, "PATCH", { user })
+    fetchCall( `${userURL}/${userData.id}`, "PATCH", { user })
         .then(resp => resp.json())
         .then(directToPage(event, `${accountURL}`))    
     }

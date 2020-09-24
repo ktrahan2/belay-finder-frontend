@@ -15,11 +15,11 @@ function getUserData(event) {
     
     fetchCall( userURL, "POST", {user} )
     .then(response => response.json())
-    .then(data => validateSignUp(data))
+    .then(user => validateSignUp(event, user))
 }
 
-function validateSignUp(data) {
-    if (data.user.errors) {
+function validateSignUp(event, user) {
+    if (user.errors) {
         removeErrors()
         let error = findError(user.errors)
         error.forEach(error => {
@@ -30,7 +30,8 @@ function validateSignUp(data) {
             $.createUserErrorSection.append(errorBox)
         })      
     } else {
-        window.location.replace(`${frontEndURL}/account.html?user_id=${data.user.id}`)
+        localStorage.setItem("token", user.token)
+        directToPage(event, `${accountURL}`)
     }
 }
 

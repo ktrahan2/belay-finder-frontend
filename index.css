@@ -1,0 +1,21 @@
+*/ {
+    box-sizing: border-box;  
+}
+
+.container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.route-card {
+    display: flex; 
+    flex-flow: column wrap;
+    width: 33%;
+    justify-content: space-around;
+    align-items: center;  
+}
+
+.img {
+    height: 400px;
+    width: 400px;
+}

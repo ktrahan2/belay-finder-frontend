@@ -4,6 +4,7 @@ const userURL = `${baseURL}/users`
 const partnershipURL = `${baseURL}/partnerships`
 const signUpURL = `${frontEndURL}/signup.html`
 const climbingRouteURL = `${baseURL}/climbing_routes`
+const favoriteRouteURL = `${baseURL}/favorite_routes`
 const signInURL = `${frontEndURL}/login.html`
 const updateProfileURL = `${frontEndURL}/update-profile.html`
 const loginURL = `${baseURL}/login`
@@ -81,9 +82,10 @@ function directToPage(event, url) {
 function createDropDownOptions(array, id) {
     const dropDown = document.querySelector(id)
     array.forEach(index => {
-        let length = array.length - 1
         const option = document.createElement('option')
+        option.id = (`${index}`)
         option.textContent = index
         dropDown.append(option)
     })
 }
+

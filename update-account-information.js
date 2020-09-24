@@ -11,7 +11,7 @@ fetch(`${baseURL}/profile`, {
     createNavigationButton("ACCOUNT", `${accountURL}`)
 
 function createUpdateForm(response) {
-    console.log(response)
+    const userData = response.data
     const updateUserForm = document.createElement('form')
     const username = document.createElement('input')
     const email = document.createElement('input')
@@ -23,14 +23,14 @@ function createUpdateForm(response) {
     updateUserForm.id = "update-account-information-form"
 
     username.name = "username"
-    username.value = response.username
+    username.value = userData.attributes.username
     email.name = "email"
-    email.value = response.email
+    email.value = userData.attributes.email
     password.name = "password"
     password.type = "password"
     password.placeholder = "Password is required to update account information"
     name.name = "name"
-    name.value = response.name
+    name.value = userData.attributes.name
     submit.value = "Update Account Information"
     submit.type = "submit"
 
@@ -38,13 +38,12 @@ function createUpdateForm(response) {
     $.main.append(updateUserForm)
 
     const $updateAccountInfoForm = document.querySelector('#update-account-information-form')
-    $updateAccountInfoForm.addEventListener('submit', event => getUserData(event, response))
+    $updateAccountInfoForm.addEventListener('submit', event => getUserData(event, userData))
     
 }
 
-function getUserData(event, response) {
+function getUserData(event, userData) {
 event.preventDefault()
-console.log(response)
 const formData = new FormData(event.target)
     const username = formData.get('username')
     const email = formData.get('email')
@@ -53,7 +52,7 @@ const formData = new FormData(event.target)
     name = name.toLowerCase()
     let user = { username, email, password, name }
 
-    fetchCall( `${userURL}/${response.id}`, "PUT", {user} )
+    fetchCall( `${userURL}/${userData.id}`, "PUT", {user} )
     .then(response => response.json())
     .then(directToPage(event, `${accountURL}`))    
 }

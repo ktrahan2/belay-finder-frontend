@@ -16,13 +16,14 @@ fetch(`${baseURL}/profile`, {
     }
     })
     .then(response => response.json())
-    .then(user => createUserProfile(user))
+    .then(response => createUserProfile(response))
   
-function createUserProfile(user) {
+function createUserProfile(response) {
+    const user = response.data
     createNavigationButton("HOME", `${frontEndURL}?status="signed-in"`)
     createNavigationButton("SIGN OUT", `${frontEndURL}`)
     const title = document.createElement('h2')
-    let userName = titleCase(user.name)
+    let userName = titleCase(user.attributes.name)
     title.textContent = `Welcome, ${userName}`
     $.main.prepend(title)
     console.log(user)
