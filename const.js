@@ -12,6 +12,7 @@ const accountURL = `${frontEndURL}/account.html`
 const updateAccountInfoURL = `${frontEndURL}/update-account-information.html`
 const updateProfileInfoURL = `${frontEndURL}/update-profile-information.html`
 const profileURL = `${userURL}/profile`
+const partnerURL = `${frontEndURL}/partners.html`
 
 const $ = {
     header: document.querySelector('header'),
@@ -21,8 +22,9 @@ const $ = {
     createUserErrorSection: document.querySelector('#show-create-user-error'),
     signUpButton: document.querySelector('#sign-up-button'),
     signInButton: document.querySelector('#sign-in-button'),
-    signInForm: document.querySelector('#sign-in-user-form')
+    signInForm: document.querySelector('#sign-in-user-form'),
 }
+
 
 const climbingStyleArray = ["top rope", "sport", "trad"]
 

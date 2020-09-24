@@ -21,6 +21,7 @@ fetch(`${baseURL}/profile`, {
 function createUserProfile(response) {
     const user = response.data
     createNavigationButton("HOME", `${frontEndURL}?status="signed-in"`)
+    createNavigationButton("Find Belay Partners", `${partnerURL}`)
     createNavigationButton("SIGN OUT", `${frontEndURL}`)
     const title = document.createElement('h2')
     let userName = titleCase(user.attributes.name)
