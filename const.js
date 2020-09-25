@@ -32,6 +32,8 @@ const difficultyArray = ["5.5", "5.6", "5.7", "5.8", "5.9", "5.10a", "5.10b",
     "5.10c", "5.10d", "5.11a", "5.11b", "5.11c", "5.11d", "5.12a"
 ]
 
+const availabilityArray = ["Available", "Unavailable"]
+
 function createNavigationButton(name, url) {
     const button = document.createElement('button')
 

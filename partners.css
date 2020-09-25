@@ -1,0 +1,30 @@
+*/ {
+    box-sizing: border-box;  
+}
+
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+.user-card {
+    display: flex; 
+    flex-flow: row wrap;
+    width: 33%;
+    justify-content: space-around;
+    align-items: center;  
+}
+
+.profile-div {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    width: 100%;
+    
+}
+
+.profile-div > p {
+    padding: 5px;
+}
+

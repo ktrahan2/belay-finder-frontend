@@ -19,7 +19,8 @@ function createProfileUpdateForm(response) {
     const climbing_skill = document.createElement('select')
     const styleLabel = document.createElement('label')
     const climbing_style = document.createElement('select')
-    const password = document.createElement('input')
+    const location = document.createElement('input')
+    const locationLabel = document.createElement('lable')
 
     const submit = document.createElement('input')
 
@@ -41,14 +42,17 @@ function createProfileUpdateForm(response) {
     climbing_style.id = "climbing-style"
     climbing_style.name = "climbing_style"
 
-    password.name = "password"
-    password.type = "password"
-    password.placeholder = "Password is required to update profile information"
+    locationLabel.for = "location"
+    locationLabel.innerText = "Location:"
+    location.id = "location"
+    location.name = "location"
+    location.value = userData.attributes.location
+
 
     submit.value = "Update Profile"
     submit.type = "submit"
 
-    $updateProfileForm.append(aboutMeLabel, aboutme, styleLabel, climbing_style, skillLabel, climbing_skill, password, submit)
+    $updateProfileForm.append(aboutMeLabel, aboutme, styleLabel, climbing_style, skillLabel, climbing_skill, locationLabel, location, submit)
     $.main.append($updateProfileForm)
     
     createDropDownOptions(climbingStyleArray, '#climbing-style')
@@ -73,8 +77,9 @@ function getUserData(event, userData) {
     const aboutme = formData.get('aboutme')
     const climbing_style = formData.get('climbing_style')
     const climbing_skill = formData.get('climbing_skill')
+    const location = formData.get('location')
     const password = formData.get('password')
-    let user = { password, aboutme, climbing_style, climbing_skill }
+    let user = { password, aboutme, climbing_style, climbing_skill, location }
 
     fetchCall( `${userURL}/${userData.id}`, "PATCH", { user })
         .then(resp => resp.json())

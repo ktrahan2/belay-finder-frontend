@@ -25,8 +25,8 @@ function getUser() {
 function showUserLoggedIn(response) {
     const user = response.data
     createNavigationButton("ACCOUNT", `${accountURL}`)
-    createNavigationButton("SIGN OUT", `${frontEndURL}`)
     createNavigationButton("Find Belay Partners", `${partnerURL}`)
+    createNavigationButton("SIGN OUT", `${frontEndURL}`)
     const name = document.createElement('h4')
     const title = titleCase(user.attributes.name)
     name.textContent = `Logged in as ${title}`
