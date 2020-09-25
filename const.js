@@ -13,6 +13,7 @@ const updateAccountInfoURL = `${frontEndURL}/update-account-information.html`
 const updateProfileInfoURL = `${frontEndURL}/update-profile-information.html`
 const profileURL = `${userURL}/profile`
 const partnerURL = `${frontEndURL}/partners.html`
+const partnershipsURL = `${baseURL}/partnerships`
 
 const $ = {
     header: document.querySelector('header'),
