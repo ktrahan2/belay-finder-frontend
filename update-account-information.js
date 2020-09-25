@@ -1,17 +1,10 @@
-fetch(`${baseURL}/profile`, {
-    method: "GET",
-    headers: {
-        "Accept": "application/json",
-        "Content-type": "application/json",
-        "Authorization": `Bearer ${window.localStorage.token}`
-    }
-    })
+fetchCall(`${baseURL}/profile`, "GET")
     .then(response => response.json())
     .then(response => createUpdateForm(response))
     createNavigationButton("ACCOUNT", `${accountURL}`)
 
 function createUpdateForm(response) {
-    const userData = response.data
+    const userInfo = response.data
     const updateUserForm = document.createElement('form')
     const username = document.createElement('input')
     const email = document.createElement('input')
@@ -23,14 +16,14 @@ function createUpdateForm(response) {
     updateUserForm.id = "update-account-information-form"
 
     username.name = "username"
-    username.value = userData.attributes.username
+    username.value = userInfo.attributes.username
     email.name = "email"
-    email.value = userData.attributes.email
+    email.value = userInfo.attributes.email
     password.name = "password"
     password.type = "password"
     password.placeholder = "Password is required to update account information"
     name.name = "name"
-    name.value = userData.attributes.name
+    name.value = userInfo.attributes.name
     submit.value = "Update Account Information"
     submit.type = "submit"
 
@@ -38,11 +31,11 @@ function createUpdateForm(response) {
     $.main.append(updateUserForm)
 
     const $updateAccountInfoForm = document.querySelector('#update-account-information-form')
-    $updateAccountInfoForm.addEventListener('submit', event => getUserData(event, userData))
+    $updateAccountInfoForm.addEventListener('submit', event => getUserData(event, userInfo))
     
 }
 
-function getUserData(event, userData) {
+function getUserData(event, userInfo) {
 event.preventDefault()
 const formData = new FormData(event.target)
     const username = formData.get('username')
@@ -52,7 +45,7 @@ const formData = new FormData(event.target)
     name = name.toLowerCase()
     let user = { username, email, password, name }
 
-    fetchCall( `${userURL}/${userData.id}`, "PUT", {user} )
+    fetchCall( `${userURL}/${userInfo.id}`, "PUT", {user} )
     .then(response => response.json())
     .then(directToPage(event, `${accountURL}`))    
 }

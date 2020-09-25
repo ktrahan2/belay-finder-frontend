@@ -1,11 +1,4 @@
-fetch(`${baseURL}/profile`, {
-    method: "GET",
-    headers: {
-        "Accept": "application/json",
-        "Content-type": "application/json",
-        "Authorization": `Bearer ${window.localStorage.token}`
-    }
-    })
+fetchCall(`${baseURL}/profile`, "GET")
     .then(response => response.json())
     .then(response => createProfileUpdateForm(response))
 createNavigationButton("ACCOUNT", `${accountURL}`)
