@@ -1,12 +1,7 @@
-const queryParams = new URLSearchParams(window.location.search)
-const user_id = queryParams.get("user_id")
-
-
-
 fetchCall(`${baseURL}/profile`, "GET")
     .then(response => response.json())
     .then(response => createUserProfile(response))
-  
+
 function createUserProfile(response) {
     const user = response.data
     createNavigationButton("HOME", `${frontEndURL}?status="signed-in"`)
@@ -20,6 +15,7 @@ function createUserProfile(response) {
 
     $.main.prepend(title )
     createChangeStatusButton(user)
+    renderFavoriteRoutes(user)
 }
 
 function createChangeStatusButton(user) {
@@ -40,26 +36,21 @@ function createChangeStatusButton(user) {
         if (dropDown[i].textContent == userInfo.attributes.belay_status ) {
            dropDown[i].selected = true
         }
-    statusUpdateForm.addEventListener('submit', event => handleStatusSubmit(event, userInfo))
-
+    statusUpdateForm.addEventListener('submit', event => handleUserStatusUpdate(event, userInfo))
 }
 
-function handleStatusSubmit(event, userInfo) {
+function handleUserStatusUpdate(event, userInfo) {
     event.preventDefault()
     
     const formData = new FormData(event.target)
     let belay_status = formData.get('belay_status')
     
     const user = { belay_status }
-    fetch(`${userURL}/${userInfo.id}`, {
-        method: "PATCH",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${window.localStorage.token}`
-        },
-        body: JSON.stringify({ user })
-    }).then(resp => resp.json())
+    fetchCall(`${userURL}/${userInfo.id}`, "PATCH", { user } )
+        .then(resp => resp.json())
         .then(console.log)
 }
 
+function renderFavoriteRoutes(user) {
+    
+}

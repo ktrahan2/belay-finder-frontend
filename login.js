@@ -13,13 +13,12 @@ function handleSignInForm(event) {
     fetchCall( loginURL, "POST", user )
         .then(response => response.json())
         .then(data => validateSignIn(event, data))
-        
 }
 
 function validateSignIn(event, data) {
-    if (data.errors) {
+    let error = data.errors
+    if (error) {
         removeErrors()
-        let error = data.errors
         const errorBox = document.createElement('p')
         errorBox.classList.add('error-box')
         errorBox.innerHTML = error

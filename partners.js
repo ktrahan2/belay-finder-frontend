@@ -8,19 +8,19 @@ fetch(`${userURL}`)
 function renderBelayers(response) {
     fetchCall(`${baseURL}/profile`, "GET")
             .then(resp => resp.json())
-            .then(response2 => getUser(response, response2))
-    function getUser(response, response2) {
-        const userId = response2.data.id
+            .then(currentUser => createBelayers(response, currentUser))
+    function createBelayers(response, currentUser) {
+        const userId = currentUser.data.id
         response.data.forEach(belayer => {
             if (belayer.id != userId) {
-                createUserCard(belayer)
+                createUserCard(belayer, currentUser)
             } 
         })
-        showUserPendingRequest(response2)
+        showUserPendingRequest(currentUser)
     }
 }     
 
-function createUserCard(belayer) {
+function createUserCard(belayer, currentUser) {
     const container = document.querySelector('.container')
     const userCard = document.createElement('div')
 
@@ -91,89 +91,56 @@ function createUserCard(belayer) {
     belayStatus.textContent = titleCase(belayer.attributes.belay_status)
     belayStatusDiv.append(belayStatusLabel, belayStatus)
      
-    // const addFriendForm = document.createElement('form')
     const addFriendButton = document.createElement('button')
-    // addFriendForm.classList.add("friend-form")
-    // addFriendForm.id = belayer.id 
     addFriendButton.id = `friend-${belayer.id}`
     addFriendButton.classList.add('friend-button')
     addFriendButton.textContent = "Send Belay Request"
-    // addFriendButton.type = "submit"
-    // addFriendButton.value = "Send Belay Request"
-    // addFriendButton.name = "friend-button"
-    // userCard.append(addFriendForm)
-    // addFriendForm.append(addFriendButton)
     
     userCard.append(belayStatusDiv, usernameDiv, nameDiv, emailDiv, aboutmeDiv, styleDiv, skillDiv, locationDiv, addFriendButton)
     container.append(userCard)  
     
-    addFriendButton.addEventListener('click', event => handleAddFriendForm(event, belayer))
+    addFriendButton.addEventListener('click', event => handleAddFriendButton(event, belayer, currentUser))
 }
 
-function handleAddFriendForm(event, belayer) {
+function handleAddFriendButton(event, belayer, currentUser) {
     const friendButtons = document.querySelectorAll('.friend-button')
     friendButtons.forEach(friendButton => {
         if (event.target == friendButton && friendButton.textContent == 'Send Belay Request') {
-            friendButton.textContent = "Belay Pending"
-            sendBelayRequest(belayer)
-        } else if (event.target == friendButton) {
-            
+            friendButton.textContent = "Cancel Pending Request"
+            sendBelayRequest(belayer, currentUser)
+        } else if (event.target == friendButton) {        
             friendButton.textContent = "Send Belay Request"
-            cancelBelayRequest(belayer)
+            cancelBelayRequest(belayer, currentUser)
         }
-
-        })
-
-    
+    })
 }
 
-function sendBelayRequest(belayer) {
-    fetchCall(`${baseURL}/profile`, "GET")
-    .then(resp => resp.json())
-    .then(response => sendRequest(response))
-
-    function sendRequest(response) {
-        const requestor_id = response.data.id
-        const receiver_id = belayer.id
-        const partnership_status = "pending"    
-        const partnership = { requestor_id, receiver_id, partnership_status }
-        fetchCall(`${partnershipURL}`, "POST", { partnership })
-    }
+function sendBelayRequest(belayer, currentUser) {
+   const requestor_id = currentUser.data.id
+    const receiver_id = belayer.id
+    const partnership_status = "pending"    
+    const partnership = { requestor_id, receiver_id, partnership_status }
+    fetchCall(`${partnershipURL}`, "POST", { partnership })
 }
 
-function cancelBelayRequest(belayer) {
-    fetchCall(`${baseURL}/profile`, "GET")
-    .then(resp => resp.json())
-    .then(response => cancelRequest(belayer, response))
-
-    function cancelRequest(belayer, response) {
-        const user = response.data
-        const partnerships = user.attributes.partnerships_as_requestor
-        partnerships.forEach(partnership => {
-            console.log(partnership)
-            if (partnership.requestor_id == user.id && partnership.receiver_id == belayer.id) {
-                fetch(`${partnershipURL}/${partnership.id}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-type": "application/json",
-                        "Authorization": `Bearer ${window.localStorage.token}`
-                    }
-                })
-            }
-        })  
-    }
+function cancelBelayRequest(belayer, currentUser) {
+    const user = currentUser.data
+    const partnerships = user.attributes.partnerships_as_requestor
+    partnerships.forEach(partnership => {
+        if (partnership.requestor_id == user.id && partnership.receiver_id == belayer.id) {
+            fetchCall(`${partnershipURL}/${partnership.id}`, "DELETE")
+        } 
+    })
 }
 
-function showUserPendingRequest(response2) {
-    const userPartnershipRequests = response2.data.attributes.partnerships_as_requestor
+function showUserPendingRequest(currentUser) {
+    const userPartnershipRequests = currentUser.data.attributes.partnerships_as_requestor
     const userCards = document.querySelectorAll('.user-card')
     userCards.forEach(userCard => {
-        
         const button = document.querySelector(`#friend-${userCard.id}`)
         userPartnershipRequests.forEach(partnership => {
             if (userCard.id == partnership.receiver_id) {
-                button.textContent = "Belay Pending"
+                button.textContent = "Cancel Pending Request"
             } else { 
             }
         })

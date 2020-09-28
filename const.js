@@ -1,19 +1,20 @@
 const baseURL = 'http://localhost:3000'
-const frontEndURL = 'http://localhost:7000'
 const userURL = `${baseURL}/users`
+const profileURL = `${userURL}/profile`
 const partnershipURL = `${baseURL}/partnerships`
-const signUpURL = `${frontEndURL}/signup.html`
 const climbingRouteURL = `${baseURL}/climbing_routes`
 const favoriteRouteURL = `${baseURL}/favorite_routes`
+const loginURL = `${baseURL}/login`
+const partnershipsURL = `${baseURL}/partnerships`
+
+const frontEndURL = 'http://localhost:7000'
 const signInURL = `${frontEndURL}/login.html`
 const updateProfileURL = `${frontEndURL}/update-profile.html`
-const loginURL = `${baseURL}/login`
 const accountURL = `${frontEndURL}/account.html`
+const signUpURL = `${frontEndURL}/signup.html`
 const updateAccountInfoURL = `${frontEndURL}/update-account-information.html`
 const updateProfileInfoURL = `${frontEndURL}/update-profile-information.html`
-const profileURL = `${userURL}/profile`
 const partnerURL = `${frontEndURL}/partners.html`
-const partnershipsURL = `${baseURL}/partnerships`
 
 const $ = {
     header: document.querySelector('header'),
@@ -25,7 +26,6 @@ const $ = {
     signInButton: document.querySelector('#sign-in-button'),
     signInForm: document.querySelector('#sign-in-user-form'),
 }
-
 
 const climbingStyleArray = ["top rope", "sport", "trad"]
 

@@ -1,7 +1,8 @@
 fetchCall(`${baseURL}/profile`, "GET")
     .then(response => response.json())
     .then(response => createUpdateForm(response))
-    createNavigationButton("ACCOUNT", `${accountURL}`)
+    
+createNavigationButton("ACCOUNT", `${accountURL}`)
 
 function createUpdateForm(response) {
     const userInfo = response.data
@@ -31,13 +32,12 @@ function createUpdateForm(response) {
     $.main.append(updateUserForm)
 
     const $updateAccountInfoForm = document.querySelector('#update-account-information-form')
-    $updateAccountInfoForm.addEventListener('submit', event => getUserData(event, userInfo))
-    
+    $updateAccountInfoForm.addEventListener('submit', event => getUserData(event, userInfo))  
 }
 
 function getUserData(event, userInfo) {
-event.preventDefault()
-const formData = new FormData(event.target)
+    event.preventDefault()
+    const formData = new FormData(event.target)
     const username = formData.get('username')
     const email = formData.get('email')
     const password = formData.get('password')

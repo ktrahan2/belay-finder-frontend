@@ -1,5 +1,3 @@
-const queryParams = new URLSearchParams(window.location.search)
-
 if (window.location.search == "") {
     createNavigationButton("SIGN UP", `${signUpURL}`)
     createNavigationButton("SIGN IN", `${signInURL}`)
@@ -36,12 +34,12 @@ function getClimbingRoutes(user) {
 
 function renderClimbingRoutes(response, user) {
     response.data.forEach(route => {
-        createCard(route, user)
+        createRouteCard(route, user)
     })
     showUserLikes(user)
 }
 
-function createCard(route, user) {
+function createRouteCard(route, user) {
     
     const container = document.querySelector('.container')
     const routeCard = document.createElement('div')
@@ -64,8 +62,6 @@ function createCard(route, user) {
     url.alt = "Route Image"
     url.classList.add('img')
     
-
-
     routeCard.append(title, url, style, difficulty, pitches, location)
     
     if (window.location.search == "?status=%22signed-in%22") {
@@ -80,7 +76,6 @@ function createCard(route, user) {
     container.appendChild(routeCard)
 }
          
-
 function handleLikeButtonClick(event, route, user) {
         event.preventDefault()
         const $likeButton = document.querySelectorAll('.like-button')
@@ -108,14 +103,7 @@ function deleteFromFavorites(route, user) {
     const favoriteRoutes = user.attributes.favorite_routes
     favoriteRoutes.forEach(favoriteRoute => {
         if (favoriteRoute.climbing_route_id == route.id && favoriteRoute.user_id == user.id) {
-            fetch(`${favoriteRouteURL}/${favoriteRoute.id}`, {
-                method: "DELETE",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-type": "application/json",
-                    "Authorization": `Bearer ${window.localStorage.token}`
-                }
-            })    
+            fetchCall(`${favoriteRouteURL}/${favoriteRoute.id}`, "DELETE")
         }   
     })
 }
@@ -136,7 +124,5 @@ function showUserLikes(user) {
     })
 }
 
-//get a button to show climbers near you if sign in
-
-//add filter feature for routes 
+//add filter feature for routes
 
