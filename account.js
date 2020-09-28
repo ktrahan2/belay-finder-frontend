@@ -7,8 +7,11 @@ fetchCall(`${baseURL}/profile`, "GET")
     })
         
 function renderBelayRequest(user) {
-    const userRequestIds = user.data.attributes.partnerships_as_receiver
-    const fetches = userRequestIds.map(request => fetchCall(`${userURL}/${request.requestor_id}`, "GET"))
+    const userReceiverIds = user.data.attributes.partnerships_as_receiver
+    const userRequestorIds =user.data.attributes.partnerships_as_requestor 
+    let requestorFetches = userRequestorIds.map(request => fetchCall(`${userURL}/${request.receiver_id}`, "GET"))
+    let receiverFetches = userReceiverIds.map(request => fetchCall(`${userURL}/${request.requestor_id}`, "GET"))
+    let fetches = requestorFetches.concat(receiverFetches)
     return Promise.all(fetches)
         .then(responses => responses.map(response => {
             let promises = response.json()
@@ -34,6 +37,7 @@ function renderFavoriteRoutes(user) {
             })
         })
 }
+
 function createUserProfile(response) {
     const user = response.data
     createNavigationButton("HOME", `${frontEndURL}?status="signed-in"`)
@@ -78,13 +82,14 @@ function handleUserStatusUpdate(event, userInfo) {
     
     const user = { belay_status }
     fetchCall(`${userURL}/${userInfo.id}`, "PATCH", { user } )
-        .then(resp => resp.json())
-        .then(console.log)
 }
 
 function createFavoriteRoutes(user, climbing_routes) {
+    console.log(climbing_routes)
     const favoriteRoute = climbing_routes.data
+    console.log(favoriteRoute)
     const route = favoriteRoute.attributes
+    const routeCardContainer = document.querySelector('.route-card-container')
     const routeCard = document.createElement('div')
     const title = document.createElement('h2')
     const style = document.createElement('p')
@@ -110,8 +115,7 @@ function createFavoriteRoutes(user, climbing_routes) {
     deleteButton.id = 'delete-button'
                 
     routeCard.append(title, url, style, difficulty, pitches, location, deleteButton)
-   
-    
+    routeCardContainer.append(routeCard)
     deleteButton.addEventListener('click', event => handleDeleteFavorite(event, user, favoriteRoute.id))
 }
 
@@ -125,7 +129,6 @@ function handleDeleteFavorite(event, user, id) {
 //can refactor with index delete favorite
 function deleteFromFavorites(user, id) {
     const favoriteRoutes = user.data.attributes.favorite_routes
-    console.log(favoriteRoutes)
     favoriteRoutes.forEach(favoriteRoute => {
         if (favoriteRoute.climbing_route_id == id && favoriteRoute.user_id == user.data.id) {
             fetchCall(`${favoriteRouteURL}/${favoriteRoute.id}`, "DELETE")
@@ -206,9 +209,10 @@ function createBelayRequestCard(user, requestor) {
     const belayStatus = document.createElement('p')
     belayStatus.textContent = titleCase(belayer.attributes.belay_status)
     belayStatusDiv.append(belayStatusLabel, belayStatus)
-    
-    const pendingRequests = requestor.data.attributes.partnerships_as_requestor
-    pendingRequests.forEach(request => {
+
+    //can refactor so both times we compare the user instead of the requestor to cut down on code
+    const requestorPendingRequests = requestor.data.attributes.partnerships_as_requestor
+    requestorPendingRequests.forEach(request => {
         if (request.receiver_id == user.data.id && request.partnership_status == "pending") {
             const acceptRequestButton = document.createElement('button')
             acceptRequestButton.id = `friend-${belayer.id}`
@@ -216,14 +220,21 @@ function createBelayRequestCard(user, requestor) {
             acceptRequestButton.textContent = "Accept Request"
             belayerCard.append(belayStatusDiv, usernameDiv, nameDiv, emailDiv, aboutmeDiv, styleDiv, skillDiv, locationDiv, acceptRequestButton)
             pendingBelayRequest.append(belayerCard)
-
             const currentUser = user.data
             acceptRequestButton.addEventListener('click', event => handleAcceptRequestbutton(event, currentUser, belayer))
         } else {
             belayerCard.append(belayStatusDiv, usernameDiv, nameDiv, emailDiv, aboutmeDiv, styleDiv, skillDiv, locationDiv)
             currentBelayPartners.append(belayerCard)
         }
-    })   
+    })  
+    const receieverPendingAcceptedRequests = user.data.attributes.partnerships_as_requestor
+    
+    receieverPendingAcceptedRequests.forEach(request => {
+        if (request.requestor_id == user.data.id && request.partnership_status == "accepted") {
+            belayerCard.append(belayStatusDiv, usernameDiv, nameDiv, emailDiv, aboutmeDiv, styleDiv, skillDiv, locationDiv)
+            currentBelayPartners.append(belayerCard)
+        } 
+    })
 }
 
 function handleAcceptRequestbutton(event, currentUser, belayer) {
@@ -232,7 +243,6 @@ function handleAcceptRequestbutton(event, currentUser, belayer) {
     belayerCard.style.display = "none"
     const userRequests = currentUser.attributes.partnerships_as_receiver
     userRequests.forEach(request => {
-        console.log(request)
         const requestor_id = belayer.id
         const receiver_id = currentUser.id
         const partnership_status = "accepted"
