@@ -15,7 +15,7 @@ function createUserProfile(response) {
 
     $.main.prepend(title )
     createChangeStatusButton(user)
-    renderFavoriteRoutes(user)
+    getClimbingRoutes(user)
 }
 
 function createChangeStatusButton(user) {
@@ -51,6 +51,66 @@ function handleUserStatusUpdate(event, userInfo) {
         .then(console.log)
 }
 
-function renderFavoriteRoutes(user) {
-    
+function getClimbingRoutes(user) {
+    fetchCall(`${climbingRouteURL}`, "GET")
+        .then(response => response.json())
+        .then(climbingRoutes => createFavoriteRoutes(user, climbingRoutes))
+}
+
+function createFavoriteRoutes(user, climbingRoutes) {
+    const favoriteRoutes = user.attributes.favorite_routes
+    favoriteRoutes.forEach(favoriteRoute => {
+        console.log(favoriteRoute)
+        climbingRoutes.data.forEach(climbingRoute => {
+            if (climbingRoute.id == favoriteRoute.climbing_route_id) {
+                const route = climbingRoute.attributes
+                const container = document.querySelector('.container')
+                const routeCard = document.createElement('div')
+                const title = document.createElement('h2')
+                const style = document.createElement('p')
+                const difficulty = document.createElement('p')
+                const pitches = document.createElement('p')
+                const location = document.createElement('p')
+                const url = document.createElement('img')
+                const id = document.createElement('input')
+            
+                routeCard.classList.add('route-card')
+                routeCard.id = `route-${climbingRoute.id}`
+                title.textContent = route.name
+                style.textContent = `Style: ${route.style}`
+                difficulty.textContent = `Difficulty ${route.difficulty}`
+                pitches.textContent = `Pitches: ${route.pitches}`
+                location.textContent = `Location: ${route.location}`
+                url.src = route.url
+                url.alt = "Route Image"
+                url.classList.add('img')
+                
+                const deleteButton = document.createElement('button')
+                deleteButton.textContent = "Delete Favorite"
+                deleteButton.id = 'delete-button'
+                
+                routeCard.append(title, url, style, difficulty, pitches, location, deleteButton)
+                container.appendChild(routeCard)
+        
+                deleteButton.addEventListener('click', event => handleDeleteFavorite(event, user, climbingRoute.id))
+            }
+        })
+    })
+}
+
+function handleDeleteFavorite(event, user, id) {
+    event.preventDefault()
+    const routeCard = document.querySelector(`#route-${id}`)
+    routeCard.style.display = 'none'
+    deleteFromFavorites(user, id)
+}
+//can refactor with index delete favorite
+function deleteFromFavorites(user, id) {
+    const favoriteRoutes = user.attributes.favorite_routes
+    favoriteRoutes.forEach(favoriteRoute => {
+        console.log(favoriteRoute)
+        if (favoriteRoute.climbing_route_id == id && favoriteRoute.user_id == user.id) {
+            fetchCall(`${favoriteRouteURL}/${favoriteRoute.id}`, "DELETE")
+        }
+    })
 }
