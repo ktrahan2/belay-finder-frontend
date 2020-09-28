@@ -14,19 +14,25 @@ function renderBelayRequest(user) {
             let promises = response.json()
             return promises
             })).then(promises => {
-                promises.forEach(promise => {
-                    promise.then(requestor => createBelayPartnerRequestCard(requestor))
+                    promises.forEach(promise => {
+                    promise.then(requestor => createBelayRequestCard(user, requestor))
                 })
             })
-}    
+}
+ 
 
 function renderFavoriteRoutes(user) {
-    console.log(user)
     const favoriteRoutes = user.data.attributes.favorite_routes
-    const userFavoriteRouteId = favoriteRoutes.map(route => {
-        return route.climbing_route_id
-    })
-    console.log(userFavoriteRouteId)
+    const fetches = favoriteRoutes.map(route => fetchCall(`${climbingRouteURL}/${route.climbing_route_id}`))
+    return Promise.all(fetches)
+        .then(responses => responses.map(response => {
+            let promises = response.json()
+            return promises
+        })).then(promises => {
+                promises.forEach(promise => {
+                promise.then(climbing_routes => createFavoriteRoutes(user, climbing_routes))
+            })
+        })
 }
 function createUserProfile(response) {
     const user = response.data
@@ -41,7 +47,6 @@ function createUserProfile(response) {
     $.main.prepend(title )
 
     createChangeStatusButton(user)
-    getClimbingRoutes(user)
 }
 
 function createChangeStatusButton(user) {
@@ -56,7 +61,7 @@ function createChangeStatusButton(user) {
     submitButton.value = "Update Belayability"
 
     statusUpdateForm.append(dropDown, submitButton)
-    $.main.append(statusUpdateForm)
+    $.main.prepend(statusUpdateForm)
     createDropDownOptions(availabilityArray, '#belay-status')
     for (let i = 0; i < dropDown.children.length; i++)
         if (dropDown[i].textContent == userInfo.attributes.belay_status ) {
@@ -77,50 +82,37 @@ function handleUserStatusUpdate(event, userInfo) {
         .then(console.log)
 }
 
-function getClimbingRoutes(user) {
-    fetchCall(`${climbingRouteURL}`, "GET")
-        .then(response => response.json())
-        .then(climbingRoutes => createFavoriteRoutes(user, climbingRoutes))
-}
-//possible refactor with index createRouteCard
-function createFavoriteRoutes(user, climbingRoutes) {
-    const favoriteRoutes = user.attributes.favorite_routes
-    favoriteRoutes.forEach(favoriteRoute => {
-        climbingRoutes.data.forEach(climbingRoute => {
-            if (climbingRoute.id == favoriteRoute.climbing_route_id) {
-                const route = climbingRoute.attributes
-                const routeCardContainer = document.querySelector('.route-card-container')
-                const routeCard = document.createElement('div')
-                const title = document.createElement('h2')
-                const style = document.createElement('p')
-                const difficulty = document.createElement('p')
-                const pitches = document.createElement('p')
-                const location = document.createElement('p')
-                const url = document.createElement('img')
-                const id = document.createElement('input')
+function createFavoriteRoutes(user, climbing_routes) {
+    const favoriteRoute = climbing_routes.data
+    const route = favoriteRoute.attributes
+    const routeCard = document.createElement('div')
+    const title = document.createElement('h2')
+    const style = document.createElement('p')
+    const difficulty = document.createElement('p')
+    const pitches = document.createElement('p')
+    const location = document.createElement('p')
+    const url = document.createElement('img')
+    const id = document.createElement('input')
             
-                routeCard.classList.add('route-card')
-                routeCard.id = `route-${climbingRoute.id}`
-                title.textContent = route.name
-                style.textContent = `Style: ${route.style}`
-                difficulty.textContent = `Difficulty ${route.difficulty}`
-                pitches.textContent = `Pitches: ${route.pitches}`
-                location.textContent = `Location: ${route.location}`
-                url.src = route.url
-                url.alt = "Route Image"
-                url.classList.add('img')
+    routeCard.classList.add('route-card')
+    routeCard.id = `route-${favoriteRoute.id}`
+    title.textContent = route.name
+    style.textContent = `Style: ${route.style}`
+    difficulty.textContent = `Difficulty ${route.difficulty}`
+    pitches.textContent = `Pitches: ${route.pitches}`
+    location.textContent = `Location: ${route.location}`
+    url.src = route.url
+    url.alt = "Route Image"
+    url.classList.add('img')
                 
-                const deleteButton = document.createElement('button')
-                deleteButton.textContent = "Delete Favorite"
-                deleteButton.id = 'delete-button'
+    const deleteButton = document.createElement('button')
+    deleteButton.textContent = "Delete Favorite"
+    deleteButton.id = 'delete-button'
                 
-                routeCard.append(title, url, style, difficulty, pitches, location, deleteButton)
-                routeCardContainer.appendChild(routeCard)
-        
-                deleteButton.addEventListener('click', event => handleDeleteFavorite(event, user, climbingRoute.id))
-            }
-        })
-    })
+    routeCard.append(title, url, style, difficulty, pitches, location, deleteButton)
+   
+    
+    deleteButton.addEventListener('click', event => handleDeleteFavorite(event, user, favoriteRoute.id))
 }
 
 function handleDeleteFavorite(event, user, id) {
@@ -132,19 +124,24 @@ function handleDeleteFavorite(event, user, id) {
 
 //can refactor with index delete favorite
 function deleteFromFavorites(user, id) {
-    const favoriteRoutes = user.attributes.favorite_routes
+    const favoriteRoutes = user.data.attributes.favorite_routes
+    console.log(favoriteRoutes)
     favoriteRoutes.forEach(favoriteRoute => {
-        if (favoriteRoute.climbing_route_id == id && favoriteRoute.user_id == user.id) {
+        if (favoriteRoute.climbing_route_id == id && favoriteRoute.user_id == user.data.id) {
             fetchCall(`${favoriteRouteURL}/${favoriteRoute.id}`, "DELETE")
         }
     })
 }
 
-function createBelayPartnerRequestCard(requestor) {
+function createBelayRequestCard(user, requestor) {
     let belayer = requestor.data
-   
+    const currentBelayPartners = document.querySelector('.belay-partners')
     const pendingBelayRequest = document.querySelector('.pending-belay-request')
     const belayerCard = document.createElement('div')
+    
+    belayerCard.classList.add('belayer-card')
+    belayerCard.classList.add()
+    belayerCard.id = `belayer-${belayer.id}`
     
     const usernameDiv = document.createElement('div')
     usernameDiv.classList.add("profile-div")
@@ -202,9 +199,6 @@ function createBelayPartnerRequestCard(requestor) {
     location.textContent = belayer.attributes.location
     locationDiv.append(locationLabel, location)
 
-    belayerCard.classList.add('belayer-card')
-    belayerCard.id = belayer.attributes.id
-
     const belayStatusDiv = document.createElement('div')
     belayStatusDiv.classList.add('profile-div')
     const belayStatusLabel = document.createElement('p')
@@ -212,15 +206,39 @@ function createBelayPartnerRequestCard(requestor) {
     const belayStatus = document.createElement('p')
     belayStatus.textContent = titleCase(belayer.attributes.belay_status)
     belayStatusDiv.append(belayStatusLabel, belayStatus)
-     
-    const addFriendButton = document.createElement('button')
-    addFriendButton.id = `friend-${belayer.attributes.id}`
-    addFriendButton.classList.add('friend-button')
-    addFriendButton.textContent = "Send Belay Request"
+    
+    const pendingRequests = requestor.data.attributes.partnerships_as_requestor
+    pendingRequests.forEach(request => {
+        if (request.receiver_id == user.data.id && request.partnership_status == "pending") {
+            const acceptRequestButton = document.createElement('button')
+            acceptRequestButton.id = `friend-${belayer.id}`
+            acceptRequestButton.classList.add('accept-button')
+            acceptRequestButton.textContent = "Accept Request"
+            belayerCard.append(belayStatusDiv, usernameDiv, nameDiv, emailDiv, aboutmeDiv, styleDiv, skillDiv, locationDiv, acceptRequestButton)
+            pendingBelayRequest.append(belayerCard)
 
-    //create an accept button
-
-    belayerCard.append(belayStatusDiv, usernameDiv, nameDiv, emailDiv, aboutmeDiv, styleDiv, skillDiv, locationDiv)
-    pendingBelayRequest.append(belayerCard)
+            const currentUser = user.data
+            acceptRequestButton.addEventListener('click', event => handleAcceptRequestbutton(event, currentUser, belayer))
+        } else {
+            belayerCard.append(belayStatusDiv, usernameDiv, nameDiv, emailDiv, aboutmeDiv, styleDiv, skillDiv, locationDiv)
+            currentBelayPartners.append(belayerCard)
+        }
+    })   
 }
 
+function handleAcceptRequestbutton(event, currentUser, belayer) {
+    event.preventDefault()
+    const belayerCard = document.querySelector(`#belayer-${belayer.id}`)
+    belayerCard.style.display = "none"
+    const userRequests = currentUser.attributes.partnerships_as_receiver
+    userRequests.forEach(request => {
+        console.log(request)
+        const requestor_id = belayer.id
+        const receiver_id = currentUser.id
+        const partnership_status = "accepted"
+        const partnership = { requestor_id, receiver_id, partnership_status }
+        if (belayer.id == request.requestor_id) {
+            fetchCall(`${partnershipURL}/${request.id}`, "PATCH", { partnership })
+        }
+    })
+}
