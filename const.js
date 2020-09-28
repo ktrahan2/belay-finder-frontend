@@ -65,7 +65,7 @@ function titleCase(string) {
     return sentence.join(" ")
 }
 
- function removeErrors() {
+function removeErrors() {
     if ($.createUserErrorSection.children.length > 0) {
         const errorBox = document.querySelectorAll('.error-box')
         errorBox.forEach(errorbox => {
