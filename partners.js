@@ -1,24 +1,31 @@
-fetch(`${userURL}`)
-    .then(resp => resp.json())
-    .then(response => renderBelayers(response))
-    createNavigationButton("HOME", `${frontEndURL}?status="signed-in"`)
-    createNavigationButton("ACCOUNT", `${accountURL}`)
-    createNavigationButton("SIGN OUT", `${frontEndURL}`)
+// fetch(`${userURL}`)
+//     .then(resp => resp.json())
+//     .then(response => renderBelayers(response))
+//     createNavigationButton("HOME", `${frontEndURL}?status="signed-in"`)
+//     createNavigationButton("ACCOUNT", `${accountURL}`)
+//     createNavigationButton("SIGN OUT", `${frontEndURL}`)
 
-function renderBelayers(response) {
-    fetchCall(`${baseURL}/profile`, "GET")
-            .then(resp => resp.json())
-            .then(currentUser => createBelayers(response, currentUser))
-    function createBelayers(response, currentUser) {
-        const userId = currentUser.data.id
-        response.data.forEach(belayer => {
-            if (belayer.id != userId) {
-                createUserCard(belayer, currentUser)
-            } 
-        })
-        showUserPendingRequest(currentUser)
-    }
-}     
+// function renderBelayers(response) {
+//     fetchCall(`${baseURL}/profile`, "GET")
+//             .then(resp => resp.json())
+//             .then(currentUser => createBelayers(response, currentUser))
+//     function createBelayers(response, currentUser) {
+//         const userId = currentUser.data.id
+//         response.data.forEach(belayer => {
+//             if (belayer.id != userId) {
+//                 createUserCard(belayer, currentUser)
+//             } 
+//         })
+//         showUserPendingRequest(currentUser)
+//     }
+// }     
+
+fetchCall(`${baseURL}/profile`, "GET")
+    .then(resp => resp.json())
+    .then(user => {
+
+    })
+
 
 function createUserCard(belayer, currentUser) {
     const container = document.querySelector('.container')
@@ -133,17 +140,18 @@ function cancelBelayRequest(belayer, currentUser) {
     })
 }
 
-function showUserPendingRequest(currentUser) {
-    const userPartnershipRequests = currentUser.data.attributes.partnerships_as_requestor
-    const userCards = document.querySelectorAll('.user-card')
-    userCards.forEach(userCard => {
-        const button = document.querySelector(`#friend-${userCard.id}`)
-        userPartnershipRequests.forEach(partnership => {
-            if (userCard.id == partnership.receiver_id) {
-                button.textContent = "Cancel Pending Request"
-            } else { 
-            }
-        })
-    })
-}
+// function showUserPendingRequest(currentUser) {
+//     const userPartnershipRequests = currentUser.data.attributes.partnerships_as_requestor
+//     console.log(userPartnershipRequests)
+//     const userCards = document.querySelectorAll('.user-card')
+//     userCards.forEach(userCard => {
+//         const button = document.querySelector(`#friend-${userCard.id}`)
+//         userPartnershipRequests.forEach(partnership => {
+//             if (userCard.id == partnership.receiver_id) {
+//                 button.textContent = "Cancel Pending Request"
+//             } else { 
+//             }
+//         })
+//     })
+// }
 
