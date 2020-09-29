@@ -1,8 +1,32 @@
-fetchCall(`${baseURL}/profile`, "GET")
+fetchCall(`${profileURL}`, "GET")
     .then(response => response.json())
-    .then(response => createUpdateForm(response))
+    .then(response => showPage(response))
     
 createNavigationButton("ACCOUNT", `${accountURL}`)
+
+function showPage(response) {
+    createDeleteAccountButton(response)
+    createUpdateForm(response)
+}
+function createDeleteAccountButton(response) {
+    const user = response.data
+    const deleteAccountButton = document.createElement('button')
+
+    deleteAccountButton.textContent = "Delete Account"
+
+    $.main.prepend(deleteAccountButton)
+
+    deleteAccountButton.addEventListener('click', event => handleDeleteAccount(event, user))
+}
+
+function handleDeleteAccount(event, user) {
+    event.preventDefault()
+    if (confirm('Are you sure you want to DELETE your account?')) {
+        fetchCall(`${userURL}/${user.id}`, "DELETE")
+            .then(resp => resp.json())
+            .then(directToPage(event, `${frontEndURL}`))
+    } 
+}
 
 function createUpdateForm(response) {
     const userInfo = response.data
@@ -28,7 +52,7 @@ function createUpdateForm(response) {
     submit.value = "Update Account Information"
     submit.type = "submit"
 
-    updateUserForm.append(username, email, password, name, submit)
+    updateUserForm.append(username, email, name, password, submit)
     $.main.append(updateUserForm)
 
     const $updateAccountInfoForm = document.querySelector('#update-account-information-form')

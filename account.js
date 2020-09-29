@@ -190,7 +190,6 @@ function handleDeleteFavorite(event, user, id) {
     deleteFromFavorites(user, id)
 }
 
-//can refactor with index delete favorite
 function deleteFromFavorites(user, id) {
     const favoriteRoutes = user.data.attributes.favorite_routes
     favoriteRoutes.forEach(favoriteRoute => {
@@ -287,24 +286,26 @@ function createAcceptRequestButton(user, requestor) {
     const pendingBelayerCard = pendingBelayRequest.querySelector(`#belayer-${requestor.data.id}`)
     const acceptRequestButton = document.createElement('button')
     
-    acceptRequestButton.id = `friend-${requestor.id}`
+    acceptRequestButton.id = `friend-${belayer.id}`
     acceptRequestButton.classList.add('accept-button', 'button')
     acceptRequestButton.textContent = "Accept Request"
 
     pendingBelayerCard.append(acceptRequestButton)
-    
     
     acceptRequestButton.addEventListener('click', event => handleAcceptRequestbutton(event, user, belayer)) 
 }
 
 function handleAcceptRequestbutton(event, user, belayer) {
     event.preventDefault()
-    
+    const belayerId = belayer.id
     const belayerCard = document.querySelector(`#belayer-${belayer.id}`)
     const pendingBelayRequest = document.querySelector('.pending-belay-request')
     pendingBelayRequest.removeChild(belayerCard)
     appendTo(belayerCard, '.belay-partners')
-
+    const button = document.querySelector(`#${event.target.id}`)
+    belayerCard.removeChild(button)
+    createDeleteButton(user, belayerCard, belayerId)
+    
     const currentUser = user.data
     const userRequests = currentUser.attributes.partnerships_as_receiver
     userRequests.forEach(request => {

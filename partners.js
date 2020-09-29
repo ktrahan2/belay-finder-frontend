@@ -1,33 +1,54 @@
-// fetch(`${userURL}`)
-//     .then(resp => resp.json())
-//     .then(response => renderBelayers(response))
-//     createNavigationButton("HOME", `${frontEndURL}?status="signed-in"`)
-//     createNavigationButton("ACCOUNT", `${accountURL}`)
-//     createNavigationButton("SIGN OUT", `${frontEndURL}`)
-
-// function renderBelayers(response) {
-//     fetchCall(`${baseURL}/profile`, "GET")
-//             .then(resp => resp.json())
-//             .then(currentUser => createBelayers(response, currentUser))
-//     function createBelayers(response, currentUser) {
-//         const userId = currentUser.data.id
-//         response.data.forEach(belayer => {
-//             if (belayer.id != userId) {
-//                 createUserCard(belayer, currentUser)
-//             } 
-//         })
-//         showUserPendingRequest(currentUser)
-//     }
-// }     
-
 fetchCall(`${baseURL}/profile`, "GET")
     .then(resp => resp.json())
     .then(user => {
-
+        getAllBelayersAvailable(user)
+        createNavigationButton("Home", `${frontEndURL}?status="signed-in"`)
+        createNavigationButton('Account', `${accountURL}`)
     })
 
+function getAllBelayersAvailable(user) {
+    fetchCall(`${userURL}`, "GET")
+        .then(resp => resp.json())
+        .then(response => {
+            const userId = user.data.id
+            let belayers = response.data
+            belayers.forEach(belayer => {
+                if (belayer.id != userId) {
+                   getNonFriends(user, belayer)
+                }
+            })
+        })
+}
 
-function createUserCard(belayer, currentUser) {
+function getNonFriends(user, belayer) {
+    const userInfo = user.data
+    const belayerId = belayer.id
+    const userAsRequestor = userInfo.attributes.partnerships_as_requestor
+    const userAsReceiver = userInfo.attributes.partnerships_as_receiver
+    const userPartnerships = userAsRequestor.concat(userAsReceiver)
+    let allIds = []
+    userPartnerships.forEach(partnership => {
+        if (belayerId == partnership.receiver_id && userInfo.id == partnership.requestor_id && partnership.partnership_status == "pending") {
+            createUserCard(belayer, user)
+            const friendButton = document.querySelector(`#friend-${belayerId}`)
+            friendButton.textContent = "Cancel Pending Request"
+        }
+        allIds.push(partnership.receiver_id)
+        allIds.push(partnership.requestor_id)
+        return allIds
+    })
+    let found = false 
+    for (let i = 0; i < allIds.length; i++) {
+        if (allIds[i] == belayerId) {
+            found = true
+        }
+    } 
+    if (found == false) {
+        createUserCard(belayer, user)
+    }
+}
+
+function createUserCard(belayer, user) {
     const container = document.querySelector('.container')
     const userCard = document.createElement('div')
 
@@ -106,32 +127,32 @@ function createUserCard(belayer, currentUser) {
     userCard.append(belayStatusDiv, usernameDiv, nameDiv, emailDiv, aboutmeDiv, styleDiv, skillDiv, locationDiv, addFriendButton)
     container.append(userCard)  
     
-    addFriendButton.addEventListener('click', event => handleAddFriendButton(event, belayer, currentUser))
+    addFriendButton.addEventListener('click', event => handleAddFriendButton(event, belayer, user))
 }
 
-function handleAddFriendButton(event, belayer, currentUser) {
+function handleAddFriendButton(event, belayer, user) {
     const friendButtons = document.querySelectorAll('.friend-button')
     friendButtons.forEach(friendButton => {
         if (event.target == friendButton && friendButton.textContent == 'Send Belay Request') {
             friendButton.textContent = "Cancel Pending Request"
-            sendBelayRequest(belayer, currentUser)
+            sendBelayRequest(belayer, user)
         } else if (event.target == friendButton) {        
             friendButton.textContent = "Send Belay Request"
-            cancelBelayRequest(belayer, currentUser)
+            cancelBelayRequest(belayer, user)
         }
     })
 }
 
-function sendBelayRequest(belayer, currentUser) {
-   const requestor_id = currentUser.data.id
+function sendBelayRequest(belayer, user) {
+   const requestor_id = user.data.id
     const receiver_id = belayer.id
     const partnership_status = "pending"    
     const partnership = { requestor_id, receiver_id, partnership_status }
     fetchCall(`${partnershipURL}`, "POST", { partnership })
 }
 
-function cancelBelayRequest(belayer, currentUser) {
-    const user = currentUser.data
+function cancelBelayRequest(belayer, user) {
+    user = user.data
     const partnerships = user.attributes.partnerships_as_requestor
     partnerships.forEach(partnership => {
         if (partnership.requestor_id == user.id && partnership.receiver_id == belayer.id) {
@@ -140,18 +161,5 @@ function cancelBelayRequest(belayer, currentUser) {
     })
 }
 
-// function showUserPendingRequest(currentUser) {
-//     const userPartnershipRequests = currentUser.data.attributes.partnerships_as_requestor
-//     console.log(userPartnershipRequests)
-//     const userCards = document.querySelectorAll('.user-card')
-//     userCards.forEach(userCard => {
-//         const button = document.querySelector(`#friend-${userCard.id}`)
-//         userPartnershipRequests.forEach(partnership => {
-//             if (userCard.id == partnership.receiver_id) {
-//                 button.textContent = "Cancel Pending Request"
-//             } else { 
-//             }
-//         })
-//     })
-// }
+
 

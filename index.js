@@ -1,6 +1,6 @@
 if (window.location.search == "") {
-    createNavigationButton("SIGN UP", `${signUpURL}`)
-    createNavigationButton("SIGN IN", `${signInURL}`)
+    createNavigationButton("Sign Up", `${signUpURL}`)
+    createNavigationButton("Sign In", `${signInURL}`)
     getClimbingRoutes()
 }
 else {
@@ -15,9 +15,9 @@ function getUser() {
 
 function showUserLoggedIn(response) {
     const user = response.data
-    createNavigationButton("ACCOUNT", `${accountURL}`)
+    createNavigationButton("Account", `${accountURL}`)
     createNavigationButton("Find Belay Partners", `${partnerURL}`)
-    createNavigationButton("SIGN OUT", `${frontEndURL}`)
+    createNavigationButton("Sign Out", `${frontEndURL}`)
     const name = document.createElement('h4')
     const title = titleCase(user.attributes.name)
     name.textContent = `Logged in as ${title}`

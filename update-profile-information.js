@@ -1,6 +1,7 @@
-fetchCall(`${baseURL}/profile`, "GET")
+fetchCall(`${profileURL}`, "GET")
     .then(response => response.json())
     .then(response => createProfileUpdateForm(response))
+    
 createNavigationButton("ACCOUNT", `${accountURL}`)
 
 function createProfileUpdateForm(response) {

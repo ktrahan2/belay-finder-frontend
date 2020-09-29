@@ -1,6 +1,6 @@
 const baseURL = 'http://localhost:3000'
 const userURL = `${baseURL}/users`
-const profileURL = `${userURL}/profile`
+const profileURL = `${baseURL}/profile`
 const partnershipURL = `${baseURL}/partnerships`
 const climbingRouteURL = `${baseURL}/climbing_routes`
 const favoriteRouteURL = `${baseURL}/favorite_routes`
@@ -47,6 +47,11 @@ function createNavigationButton(name, url) {
     button.addEventListener('click', event => directToPage(event, url))
 }
 
+function directToPage(event, url) {
+    event.preventDefault()
+    window.location.replace(url)
+}
+
 function fetchCall(url, method, bodyData) {
     const headers = {
         "Accept": "application/json",
@@ -77,11 +82,6 @@ function removeErrors() {
 function findError(errors) {
     const errorMessages = Object.values(errors)
     return errorMessages
-}
-
-function directToPage(event, url) {
-    event.preventDefault()
-    window.location.replace(url)
 }
 
 function createDropDownOptions(array, id) {
