@@ -42,9 +42,9 @@ function createProfileUpdateForm(response) {
     location.name = "location"
     location.value = userData.attributes.location
 
-
     submit.value = "Update Profile"
     submit.type = "submit"
+    submit.classList.add('button')
 
     $updateProfileForm.append(aboutMeLabel, aboutme, styleLabel, climbing_style, skillLabel, climbing_skill, locationLabel, location, submit)
     $.main.append($updateProfileForm)
@@ -72,10 +72,9 @@ function getUserData(event, userData) {
     const climbing_style = formData.get('climbing_style')
     const climbing_skill = formData.get('climbing_skill')
     const location = formData.get('location')
-    const password = formData.get('password')
-    let user = { password, aboutme, climbing_style, climbing_skill, location }
+    let user = { aboutme, climbing_style, climbing_skill, location }
 
-    fetchCall( `${userURL}/${userData.id}`, "PATCH", { user })
+    fetchCall( `${userURL}/${userData.id}`, "PATCH", { user } )
         .then(resp => resp.json())
         .then(directToPage(event, `${accountURL}`))    
     }

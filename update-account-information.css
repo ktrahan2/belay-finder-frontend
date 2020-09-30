@@ -1,1 +1,29 @@
-@import 'signup.css'
+@import 'signup.css';
+
+body {
+    background-image: url('https://i.imgur.com/JTvRRxf.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+main {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete-button {
+    background-color: rgba(0, 0, 0, 0.077);
+    border-radius: 5px;
+    color: white;
+    margin: 0 0 20px 0;
+    padding: 10px 15px;
+    font-size: 15px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    transition: .3s;
+}
+.delete-button:hover {
+    background-color: rgba(247, 2, 2, 0.091);
+    transform: scale(1.1);
+}

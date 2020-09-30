@@ -2,6 +2,7 @@
     box-sizing: border-box;
     font-family: 'Courier Prime', monospace;
 }
+
 body {
     background-image: url('https://media.gettyimages.com/photos/half-dome-sunset-panorama-picture-id177172284?s=2048x2048');
 }
@@ -17,7 +18,7 @@ body {
 }
 
 .button:hover {
-    background-color: rgba(0, 0, 0, 0.194);
+    background-color: rgba(247, 2, 2, 0.091);
     transform: scale(1.1);
 }
 
@@ -38,7 +39,7 @@ main {
     border-radius: 20px;
 }
 
-.user-form > input{
+input{
     display: flex;
     justify-content: space-around;
     padding: 15px;
@@ -49,6 +50,10 @@ main {
     color: white;
     border-radius: 10px;
     font-size: 15px;
+}
+
+::placeholder {
+    color: white;
 }
 
 h1 {
@@ -63,6 +68,3 @@ h1 {
     align-items: center;
 }
 
-::placeholder {
-    color: white;
-}

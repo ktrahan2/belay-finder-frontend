@@ -11,10 +11,10 @@ function showPage(response) {
 function createDeleteAccountButton(response) {
     const user = response.data
     const deleteAccountButton = document.createElement('button')
-
+    deleteAccountButton.classList.add('delete-button')
     deleteAccountButton.textContent = "Delete Account"
 
-    $.main.prepend(deleteAccountButton)
+    $.main.append(deleteAccountButton)
 
     deleteAccountButton.addEventListener('click', event => handleDeleteAccount(event, user))
 }
@@ -51,6 +51,7 @@ function createUpdateForm(response) {
     name.value = userInfo.attributes.name
     submit.value = "Update Account Information"
     submit.type = "submit"
+    submit.classList.add('button')
 
     updateUserForm.append(username, email, name, password, submit)
     $.main.append(updateUserForm)
@@ -69,7 +70,7 @@ function getUserData(event, userInfo) {
     name = name.toLowerCase()
     let user = { username, email, password, name }
 
-    fetchCall( `${userURL}/${userInfo.id}`, "PUT", {user} )
+    fetchCall( `${userURL}/${userInfo.id}`, "PATCH", { user } )
     .then(response => response.json())
     .then(directToPage(event, `${accountURL}`))    
 }
