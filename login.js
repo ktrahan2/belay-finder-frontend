@@ -22,7 +22,7 @@ function validateSignIn(event, data) {
         const errorBox = document.createElement('p')
         errorBox.classList.add('error-box')
         errorBox.innerHTML = error
-        errorBox.style.color = "red" 
+        errorBox.style.color = "white" 
         $.createUserErrorSection.append(errorBox)             
     } else {
         localStorage.setItem("token", data.token)

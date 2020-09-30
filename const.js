@@ -42,7 +42,7 @@ function createNavigationButton(name, url) {
     button.type = "button"
     button.innerText = `${name}`
 
-    $.header.append(button)
+    $.header.prepend(button)
 
     button.addEventListener('click', event => directToPage(event, url))
 }
