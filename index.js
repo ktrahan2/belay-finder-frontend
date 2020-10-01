@@ -1,6 +1,12 @@
 if (window.location.search == "") {
     createNavigationButton("Sign Up", `${signUpURL}`)
     createNavigationButton("Sign In", `${signInURL}`)
+    const userLogin = document.createElement('div')
+    const signin = document.querySelector('#Sign-In-button')
+    const signup = document.querySelector('#Sign-Up-button')
+    userLogin.append(signin, signup)
+    userLogin.classList.add('user-login')
+    $.header.prepend(userLogin)
     getClimbingRoutes()
 }
 else {
@@ -15,13 +21,23 @@ function getUser() {
 
 function showUserLoggedIn(response) {
     const user = response.data
-    createNavigationButton("Account", `${accountURL}`)
-    createNavigationButton("Find Belay Partners", `${partnerURL}`)
     createNavigationButton("Sign Out", `${frontEndURL}`)
+    createNavigationButton("Find Belay Partners", `${partnerURL}`)
+    createNavigationButton("Account", `${accountURL}`)
     const name = document.createElement('h4')
+    const div1 = document.createElement('div')
+    const div2 = document.createElement('div')
+    const signout = document.querySelector('#Sign-Out-button')
+    const findbelay = document.querySelector('#Find-Belay-button')
+    const account = document.querySelector('#Account-undefined-button')
     const title = titleCase(user.attributes.name)
     name.textContent = `Logged in as ${title}`
-    $.header.append(name)
+    div1.classList.add('navigation')
+    div2.classList.add('account-management')
+    div1.append(  account, findbelay)
+    div2.append( name, signout )
+    $.header.prepend( div1 )
+    $.header.append( div2 )
     
     getClimbingRoutes(user) 
 }
@@ -49,7 +65,8 @@ function createRouteCard(route, user) {
     const pitches = document.createElement('p')
     const location = document.createElement('p')
     const url = document.createElement('img')
-    const id = document.createElement('input')
+    const dataSection = document.createElement('section')
+    const header = document.createElement('div')
    
     routeCard.classList.add('route-card')
     routeCard.id = route.id
@@ -61,8 +78,12 @@ function createRouteCard(route, user) {
     url.src = route.attributes.url
     url.alt = "Route Image"
     url.classList.add('img')
+    dataSection.classList.add('data-section')
+    dataSection.append(style, difficulty, pitches, location)
+    header.classList.add('card-header')
+    header.append(title)
     
-    routeCard.append(title, url, style, difficulty, pitches, location)
+    routeCard.append(header, url, dataSection)
     
     if (window.location.search == "?status=%22signed-in%22") {
         const $likeButton = document.createElement('button')

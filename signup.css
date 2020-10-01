@@ -15,17 +15,21 @@ body {
     font-size: 15px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     transition: .3s;
+    width: fit-content;
 }
 
 .button:hover {
     background-color: rgba(247, 2, 2, 0.091);
     transform: scale(1.1);
+    cursor: pointer;
+
 }
 
 main {
     display: flex;
     justify-content: center;
     padding: 30px;
+    height: 700px;
 }
 
 .user-form {
@@ -33,16 +37,17 @@ main {
     flex-flow: column wrap;
     justify-content: space-evenly;
     align-items: center;
-    height: 300px;
+    height: fit-content;
     background-color: rgba(0, 0, 0, 0.221);
     width:40%;
+    padding: 50px;
     border-radius: 20px;
 }
 
 input{
     display: flex;
     justify-content: space-around;
-    padding: 15px;
+    margin: 15px;
     text-align: center;
     width: 92%;
     height: 30px;
@@ -66,5 +71,9 @@ h1 {
     display: flex;
     flex-flow: column wrap;
     align-items: center;
+    width: 100%;
 }
 
+.error-box {
+    color: white;
+}

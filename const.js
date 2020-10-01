@@ -39,8 +39,11 @@ function createNavigationButton(name, url) {
     const button = document.createElement('button')
 
     button.classList.add('button')
+    name = name.split(" ")
+    button.id = `${name[0]}-${name[1]}-button`
+    let completeName = name.join(" ")
     button.type = "button"
-    button.innerText = `${name}`
+    button.innerText = `${completeName}`
 
     $.header.prepend(button)
 

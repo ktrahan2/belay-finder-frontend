@@ -26,7 +26,6 @@ function validateSignUp(event, user) {
             const errorBox = document.createElement('p')
             errorBox.classList.add('error-box')
             errorBox.innerHTML = error
-            errorBox.style.color = "red" 
             $.createUserErrorSection.append(errorBox)
         })      
     } else {

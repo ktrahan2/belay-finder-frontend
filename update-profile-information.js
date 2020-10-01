@@ -8,7 +8,7 @@ function createProfileUpdateForm(response) {
     const userData = response.data
     const $updateProfileForm = document.createElement('form')
     const aboutMeLabel = document.createElement('label')
-    const aboutme = document.createElement('input')
+    const aboutme = document.createElement('textarea')
     const skillLabel = document.createElement('label')
     const climbing_skill = document.createElement('select')
     const styleLabel = document.createElement('label')
@@ -26,6 +26,9 @@ function createProfileUpdateForm(response) {
     aboutme.id = "aboutme"
     aboutme.name = "aboutme"
     aboutme.value = userData.attributes.aboutme
+    aboutme.rows = 10
+    aboutme.cols = 50
+    
     
     skillLabel.for = "climbing-skill"
     skillLabel.innerText = "Climbing-Skill:"

@@ -24,6 +24,8 @@ main {
     transition: .3s;
 }
 .delete-button:hover {
-    background-color: rgba(247, 2, 2, 0.091);
+    background-color: rgb(247, 2, 2);
     transform: scale(1.1);
+    cursor: pointer;
+
 }

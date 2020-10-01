@@ -24,7 +24,7 @@ main {
     border-radius: 50px;
 }
 
-.user-form > input{
+input{
     display: flex;
     justify-content: space-around;
     text-align: center;
@@ -34,6 +34,8 @@ main {
     color: white;
     border-radius: 10px;
 }
+
+
 
 
 

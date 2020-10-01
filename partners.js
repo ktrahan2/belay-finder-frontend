@@ -50,45 +50,53 @@ function getNonFriends(user, belayer) {
 
 function createUserCard(belayer, user) {
     const container = document.querySelector('.container')
-    const userCard = document.createElement('div')
+    const belayerCard = document.createElement('div')
 
-    const usernameDiv = document.createElement('div')
-    usernameDiv.classList.add("profile-div")
-    const username = document.createElement('p')
-    const usernameLabel = document.createElement("p")
-    usernameLabel.textContent = "Username:"
-    username.textContent = belayer.attributes.username
-    usernameDiv.append(usernameLabel, username)
+    belayerCard.classList.add('belayer-card')
+    belayerCard.id = `belayer-${belayer.id}`
 
     const nameDiv = document.createElement('div')
     nameDiv.classList.add('profile-div')
-    const nameLabel = document.createElement('p')
-    nameLabel.textContent = "Name:"
     const name = document.createElement('p')
-    name.textContent = titleCase(belayer.attributes.name)
-    nameDiv.append(nameLabel, name)
+    name.style.fontSize = "20px"
+    name.textContent = belayer.attributes.name
+    nameDiv.append(name)
+
+    const belayStatus = document.createElement('p')
+    belayStatus.textContent = titleCase(belayer.attributes.belay_status)
+
+    const header = document.createElement('div')
+    header.classList.add('belay-card-header')
+    header.append(name, belayStatus) 
 
     const emailDiv = document.createElement('div')
     emailDiv.classList.add('profile-div')
     const emailLabel = document.createElement('p')
     emailLabel.textContent = "Email:"
+    emailLabel.classList.add('label')
     const email = document.createElement('p')
     email.textContent = belayer.attributes.email
+    email.classList.add('text')
     emailDiv.append(emailLabel, email)
 
     const aboutmeDiv = document.createElement('div')
     aboutmeDiv.classList.add('profile-div')
+    aboutmeDiv.id = "aboutme-div"
     const aboutmeLabel = document.createElement('p')
     aboutmeLabel.textContent = "About Me:"
+    aboutmeLabel.id = 'aboutme-label'
     const aboutme = document.createElement('p')
+    aboutme.id = 'aboutme-text'
     aboutme.textContent = belayer.attributes.aboutme
     aboutmeDiv.append(aboutmeLabel, aboutme)
     
     const styleDiv = document.createElement('div')
     styleDiv.classList.add('profile-div')
     const styleLabel = document.createElement('p')
+    styleLabel.classList.add('label')
     styleLabel.textContent = "Preferred Climbing Style:"
     const climbing_style = document.createElement('p')
+    climbing_style.classList.add('text')
     climbing_style.textContent = belayer.attributes.climbing_style
     styleDiv.append(styleLabel, climbing_style)
     
@@ -96,7 +104,9 @@ function createUserCard(belayer, user) {
     skillDiv.classList.add('profile-div')
     const skillLabel = document.createElement('p')
     skillLabel.textContent = "Skill Level:"
+    skillLabel.classList.add('label')
     const climbing_skill = document.createElement('p')
+    climbing_skill.classList.add('text')
     climbing_skill.textContent = belayer.attributes.climbing_skill
     skillDiv.append(skillLabel, climbing_skill)
 
@@ -104,28 +114,28 @@ function createUserCard(belayer, user) {
     locationDiv.classList.add('profile-div')
     const locationLabel = document.createElement('p')
     locationLabel.textContent = "Location:"    
+    locationLabel.classList.add('label')
     const location = document.createElement('p')
+    location.classList.add('text')
     location.textContent = belayer.attributes.location
     locationDiv.append(locationLabel, location)
+    
+    const belayerInfo = document.createElement('div')
+    belayerInfo.classList.add('belayer-info')
+    belayerInfo.append(styleDiv, skillDiv, emailDiv, locationDiv)
 
-    userCard.classList.add('user-card')
-    userCard.id = belayer.id
+    const buttonSection = document.createElement('section')
+    buttonSection.classList.add('button-section')
+    buttonSection.id = `button-section-${belayer.id}`
 
-    const belayStatusDiv = document.createElement('div')
-    belayStatusDiv.classList.add('profile-div')
-    const belayStatusLabel = document.createElement('p')
-    belayStatusLabel.textContent = "Status:"
-    const belayStatus = document.createElement('p')
-    belayStatus.textContent = titleCase(belayer.attributes.belay_status)
-    belayStatusDiv.append(belayStatusLabel, belayStatus)
-     
     const addFriendButton = document.createElement('button')
     addFriendButton.id = `friend-${belayer.id}`
     addFriendButton.classList.add('friend-button')
     addFriendButton.textContent = "Send Belay Request"
     
-    userCard.append(belayStatusDiv, usernameDiv, nameDiv, emailDiv, aboutmeDiv, styleDiv, skillDiv, locationDiv, addFriendButton)
-    container.append(userCard)  
+    buttonSection.append(addFriendButton)
+    belayerCard.append(header, belayerInfo, buttonSection)
+    container.append(belayerCard)  
     
     addFriendButton.addEventListener('click', event => handleAddFriendButton(event, belayer, user))
 }
