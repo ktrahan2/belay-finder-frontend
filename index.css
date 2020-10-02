@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;  
+    font-family: 'Courier Prime', monospace;
+}
+
+.container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.route-card {
+    display: flex; 
+    flex-flow: column wrap;
+    width: 33%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px;
+    position: relative;
+}
+
+.route-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.card-header {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: lightblue;
+    height: 40px;
+    margin: 0 5px;
+    padding: 0 0 0 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.data-section {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    height: 200px;
+    justify-content: space-between;
+    background-color: lightblue;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.like-button {
+    position: absolute;
+    top: 20px;
+    right: 60px;
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.like-button:hover {
+    cursor: pointer;
+}
+
+.data-section > p {
+    width: 50%;
+}
+
+.img {
+    height: 400px;
+    width: 100%;
+    border-bottom: 10px;
+}
+
+p {
+    text-align: center;
+}
+
+header{
+    display: flex;
+    background-image: url('https://cdn.pixabay.com/photo/2020/09/02/06/03/mountains-5537412__480.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 350px;
+    border-radius: 10px;
+}
+
+h1 {
+   display: flex; 
+   align-items: center;
+   justify-content: center;
+   font-size: 75px;
+   width: 50%;
+}
+
+.account-management {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 5px 20px 0 0;
+    width: 25%
+}
+
+.navigation {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 20px 0 0 20px;
+    width: 25%;
+}
+    
+.button {
+    background-color: rgba(0, 0, 0, 0.228);
+    border-radius: 5px;
+    color: white;
+    padding: 10px 15px;
+    font-size: 18px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    transition: .3s;
+    width: fit-content;
+    height: fit-content;
+}
+
+.button:hover {
+    background-color: rgba(0, 0, 0, 0.345);
+    transform: scale(1.1);
+    cursor: pointer;
+} 
+
+h4 {
+    color: green;
+}
+
+.user-login {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 20px 0 0 20px;
+    width: 25%;
+}

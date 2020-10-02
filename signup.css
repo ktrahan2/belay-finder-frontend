@@ -1,31 +1,79 @@
 * {
     box-sizing: border-box;
+    font-family: 'Courier Prime', monospace;
+}
+
+body {
+    background-image: url('https://media.gettyimages.com/photos/half-dome-sunset-panorama-picture-id177172284?s=2048x2048');
+}
+
+.button {
+    background-color: rgba(0, 0, 0, 0.091);
+    border-radius: 5px;
+    color: white;
+    padding: 10px 15px;
+    font-size: 15px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    transition: .3s;
+    width: fit-content;
+}
+
+.button:hover {
+    background-color: rgba(247, 2, 2, 0.091);
+    transform: scale(1.1);
+    cursor: pointer;
+
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    height: 700px;
 }
 
 .user-form {
     display: flex;
     flex-flow: column wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
-    
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.221);
+    width:40%;
+    padding: 50px;
+    border-radius: 20px;
 }
 
-.user-form > input{
+input{
     display: flex;
     justify-content: space-around;
-    padding: 20px 0;
-    margin: 30px 0;
+    margin: 15px;
     text-align: center;
-    width: 50%;
+    width: 92%;
     height: 30px;
+    background-color: rgba(0, 0, 0, 0.221);
+    color: white;
+    border-radius: 10px;
+    font-size: 15px;
 }
 
-h2 {
+::placeholder {
+    color: white;
+}
+
+h1 {
     text-align: center;
+    color: white;
+    font-size: 50px;
 }
 
 #show-create-user-error {
     display: flex;
     flex-flow: column wrap;
     align-items: center;
+    width: 100%;
+}
+
+.error-box {
+    color: white;
 }

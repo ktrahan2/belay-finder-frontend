@@ -7,17 +7,19 @@
     <script src="const.js" defer></script>
     <script src="login.js" defer></script>
     <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@1&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <header>
-        <a href="/">Home</a>
-        <h1>Sign-in Page</h1>
+        
     </header>
     <main>
         <form id="sign-in-user-form" class="user-form">
-            <input type="text" name="username" placeholder="Enter Username">
-            <input type="password" name="password_digest" placeholder="Enter Password">
-            <input type="submit" name="Sign-in">
+            <input id="username-input" type="text" name="username" placeholder="Enter Username" required>
+            <input type="password" name="password" placeholder="Enter Password">
+            <input class="button" type="submit" name="Sign-in">
+            <section id="show-create-user-error"></section>
         </form>
     </main>
     <footer>

@@ -7,23 +7,21 @@
     <script src="const.js" defer></script>
     <script src="signup.js" defer></script>
     <link rel="stylesheet" href="signup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@1&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <a href="/">Home</a>
-        <h1>Belay Finder</h1>
-
+        <h1>Where Dreams Await</h1>
     </header>
     <main>
-        <h2>Sign Up!</h2>
         <form id="create-user-form" class="user-form">
             <input type="text" name="username" placeholder="Enter Username, Required">
             <input type="text" name="email" placeholder="Enter Email, Required">
-            <input type="password" name="password_digest" placeholder="Enter Password, Required, Must be between 6 and 15 characters">
-            <input type="text" name="name" placeholder="Full Name">
-            <input type="submit" value="Submit">
+            <input type="password" name="password" placeholder="Enter Password, Required, Must be between 6 and 15 characters">
+            <input type="text" name="name" placeholder="Enter Full Name, Required">
+            <section id="show-create-user-error"></section>
+            <input class="button" type="submit" value="Submit">
         </form>
-        <section id="show-create-user-error"></section>
     </main>        
     <footer>
     </footer>

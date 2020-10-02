@@ -1,1 +1,41 @@
-@import 'signup.css'
+@import 'signup.css';
+
+body {
+    background-image: url('https://wallpaperaccess.com/full/263967.jpg');
+    background-repeat: no-repeat;
+}
+
+main {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0 0 0 200px;
+    height: 80vh;
+}
+
+.user-form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 40%;
+    height: 300px;
+    background-color: rgba(0, 0, 0, 0.221);
+    border-radius: 50px;
+}
+
+input{
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    width: 75%;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.221);
+    color: white;
+    border-radius: 10px;
+}
+
+
+
+
+

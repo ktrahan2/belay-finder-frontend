@@ -1,0 +1,33 @@
+@import 'signup.css';
+
+body{
+    background-image: url('https://i.imgur.com/a61IrYO.jpg0');
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+main {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: 80vh;
+    margin: 70px;
+}
+
+select {
+    background-color: rgba(0, 0, 0, 0.091);
+    color: white;
+}
+
+#aboutme {
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.091);
+    color: white;
+    max-height: 150px;
+}
+
+.user-form {
+    height: fit-content;
+}

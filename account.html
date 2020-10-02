@@ -6,14 +6,27 @@
     <title>Profile Page</title>
     <script src="const.js" defer></script>
     <script src="account.js" defer></script>
+    <link rel="stylesheet" href="account.css">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@1&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <header>
-        <a href="/">Home</a>
-        <h1>Belay Finder</h1>
+        <navigation class='navigation'></navigation>
+        <img id='mountain-picture' src="https://i.imgur.com/ql8nASw.jpg">
     </header>
     <main>
-        <button id="update-profile-button" type="button">Update Profile</button>
+        <section id="profile-header"></section>
+        <section id="profile-information"></section>
+        <section id="update-profile-section"></section>
+        <h3>Belay Partners</h3>
+        <section class="belay-partners container"></section>
+        <h3>Pending Belay Request</h3>
+        <section class="pending-belay-request container"></section>
+        <h3>Favorite Routes</h3>
+        <section class="route-card-container container">
+
+        </section>
     </main>
     <footer>
 

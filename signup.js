@@ -1,3 +1,5 @@
+createNavigationButton("HOME", `${frontEndURL}`)
+
 $.createUserForm.addEventListener('submit', getUserData)
 
 function getUserData(event) {
@@ -6,17 +8,17 @@ function getUserData(event) {
     const formData = new FormData(event.target)
     const username = formData.get('username')
     const email = formData.get('email')
-    const password_digest = formData.get('password_digest')
+    const password = formData.get('password')
     let name = formData.get('name')
     name = name.toLowerCase()
-    const user = {username, email, password_digest, name}
+    const user = {username, email, password, name}
     
     fetchCall( userURL, "POST", {user} )
     .then(response => response.json())
-    .then(validateSignUp)
+    .then(user => validateSignUp(event, user))
 }
 
-function validateSignUp(user) {
+function validateSignUp(event, user) {
     if (user.errors) {
         removeErrors()
         let error = findError(user.errors)
@@ -24,11 +26,11 @@ function validateSignUp(user) {
             const errorBox = document.createElement('p')
             errorBox.classList.add('error-box')
             errorBox.innerHTML = error
-            errorBox.style.color = "red" 
             $.createUserErrorSection.append(errorBox)
         })      
     } else {
-        window.location.replace(`${frontEndURL}/account.html?user_id=${user.id}`)
+        localStorage.setItem("token", user.token)
+        directToPage(event, `${accountURL}`)
     }
 }
 
