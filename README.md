@@ -4,7 +4,7 @@ An app for finding climbing routes and connecting with other climbers.
 
 # Table Of Contents 
 - [Description](https://github.com/ktrahan2/belay-finder-frontend#description)
-- [How It Works (gifs)](https://github.com/ktrahan2/belay-finder-frontend#howitworks)
+- [How It Works (gifs)](https://github.com/ktrahan2/belay-finder-frontend#how-it-works)
 - [Example Code](https://github.com/ktrahan2/belay-finder-frontend#example-code)
 - [Technology Used](https://github.com/ktrahan2/belay-finder-frontend#technology-used)
 - [Setting up for the Application](https://github.com/ktrahan2/belay-finder-frontend#setting-up-for-the-application)
