@@ -20,7 +20,50 @@ Belay Land is an application that allows users to search through climbing routes
 ## How It Works
 
 ## Example Code 
+```
+    function fetchCall(url, method, bodyData) {
+        const headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.token}`
+        }
+        const body = JSON.stringify(bodyData)
+        return fetch(url, {method, headers, body})
+    }
+```
+```
+    function createDropDownOptions(array, id) {
+        const dropDown = document.querySelector(id)
+        array.forEach(index => {
+            const option = document.createElement('option')
+            option.id = (`${index}`)
+            option.textContent = index
+            dropDown.append(option)
+    })
+    }
+```
+```
+    function createChangeStatusButton(user) {
+        const userInfo = user
+        const statusUpdateForm = document.createElement('form')
+        const dropDown = document.createElement('select')
+        const submitButton = document.createElement('input')
+        const header = document.querySelector('#profile-header')
+        dropDown.id = ('belay-status')
+        dropDown.name = ('belay_status')
+        submitButton.type = "submit"
+        submitButton.value = "Update Belayability"
 
+        statusUpdateForm.append(dropDown, submitButton)
+        header.append(statusUpdateForm)
+        createDropDownOptions(availabilityArray, '#belay-status')
+        for (let i = 0; i < dropDown.children.length; i++)
+            if (dropDown[i].textContent == userInfo.attributes.belay_status ) {
+                dropDown[i].selected = true
+            }
+        statusUpdateForm.addEventListener('submit', event => handleUserStatusUpdate(event, userInfo))
+    }
+```
 
 ## Technology Used
 
