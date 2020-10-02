@@ -420,8 +420,6 @@ function handleAcceptRequestbutton(event, user, belayer) {
     const belayerCard = document.querySelector(`#belayer-${belayer.id}`)
     console.log(belayerCard)
     const pendingBelayRequest = document.querySelector('.pending-belay-request')
-    const button = document.querySelector(`#${event.target.id}`)
-    const declineButton = document.querySelector(`#decline-friend-${belayer.id}`)
     const buttonSection = document.querySelector(`#button-section-${belayer.id}`)
     buttonSection.remove()
     pendingBelayRequest.removeChild(belayerCard)
