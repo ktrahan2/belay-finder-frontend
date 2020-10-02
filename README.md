@@ -19,7 +19,7 @@ Belay Land is an application that allows users to search through climbing routes
 
 ## How It Works
 
-[Youtube video of the frontend in action!]https://youtu.be/mLFRHayBuT4
+[Youtube video of the frontend in action!](https://youtu.be/mLFRHayBuT4)
 
 ## Example Code 
 ```
